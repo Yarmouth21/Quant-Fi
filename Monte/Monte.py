@@ -14,30 +14,36 @@ def monte(tracker='AAPL', simulations=200, days=252):
         st = spot
         for j in range(days):
             st = st * np.exp((returns.mean() - 0.5 * variance) + std_dev *np.random.normal(0,1))
-            resultats[i, j] = st
+            resultats[i, j] = float(st.iloc[0])
     return resultats
 
 res = (monte())
 moy = np.mean(res, axis=0)
-plt.figure(figsize=(12,5))
-plt.subplot(2,1,2)
-plt.plot(moy, color='red')
+fig = plt.figure(figsize=(12,5))
+ax1 = plt.subplot2grid((2,2), (0,0))
+ax2 = plt.subplot2grid((2,2), (0,1))
+ax3 = plt.subplot2grid((2,2), (1,0), colspan=2)
+ax1.plot(moy, color='green')
 highest_i = np.argmax(res[:,-1])
 highest = res[highest_i,:] 
 lowest_i = np.argmin(res[:,-1])
 lowest = res[lowest_i,:]
-plt.plot(highest, color='blue')
-plt.plot(lowest,color='red')
+ax1.plot(highest, color='blue')
+ax1.plot(lowest,color='red')
 #plt.fill_between(highest, lowest, color='gray', alpha=0.2)
-plt.title("Simulation moyenne et la plus optimiste")
-plt.subplot(4,2,1)
+ax1.set_title("Simulation moyenne, plus pessimiste et plus optimiste")
 for courbe in res:
-    plt.plot(courbe)
-plt.title('Simulations de Monte Carlo')
-#plt.subplot(2,1,2)
-seuil_haut = int(0.2*len(res))
-#val = np.sort(res)[seuil_haut]
-#val_sel = res[res >= seuil_haut]
-#for ele in val_sel:
-#    plt.plot(ele)
+    ax3.plot(courbe)
+ax3.set_title('Simulations de Monte Carlo')
+final_val = res[:,-1]
+taille = int(0.8*len(res))
+seuil = np.partition(final_val,taille)[taille]
+mask = final_val >= seuil
+val_sel = res[mask]
+print(len(val_sel))
+for ele in val_sel:
+    ax2.plot(ele)
+ax2.set_title("20% plus optimistes simulations")
+
+plt.tight_layout()
 plt.show()
