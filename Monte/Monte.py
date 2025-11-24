@@ -30,7 +30,8 @@ lowest_i = np.argmin(res[:,-1])
 lowest = res[lowest_i,:]
 ax1.plot(highest, color='blue')
 ax1.plot(lowest,color='red')
-#plt.fill_between(highest, lowest, color='gray', alpha=0.2)
+x = np.arange(len(moy))
+ax1.fill_between(x,highest, lowest, color='gray', alpha=0.2)
 ax1.set_title("Simulation moyenne, plus pessimiste et plus optimiste")
 for courbe in res:
     ax3.plot(courbe)
@@ -40,10 +41,15 @@ taille = int(0.8*len(res))
 seuil = np.partition(final_val,taille)[taille]
 mask = final_val >= seuil
 val_sel = res[mask]
-print(len(val_sel))
 for ele in val_sel:
     ax2.plot(ele)
 ax2.set_title("20% plus optimistes simulations")
+
+# Calcul du pourcentage de simulations positives
+st = res[0,0]
+val_pos = res[:,-1]>st
+prop = np.mean(val_pos)
+print(prop)
 
 plt.tight_layout()
 plt.show()
