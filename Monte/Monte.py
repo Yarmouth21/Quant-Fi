@@ -48,8 +48,8 @@ ax2.set_title("20% plus optimistes simulations")
 # Calcul du pourcentage de simulations positives
 st = res[0,0]
 val_pos = res[:,-1]>st
-prop = np.mean(val_pos)
-print(prop)
+prop = np.mean(val_pos)*100
+print("La proportion de simulation positive ou nulle est de",prop,"%")
 
 plt.tight_layout()
 plt.show()
