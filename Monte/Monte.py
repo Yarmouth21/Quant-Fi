@@ -2,7 +2,7 @@ import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
 
-def monte(tracker='AAPL', simulations=200, days=252):
+def monte(tracker='AAPL', simulations=1000, days=252):
     # Téléchargement des données historiques
     data = yf.download(tracker, period='1y', auto_adjust=False)
     returns = data['Adj Close'].pct_change().dropna()
