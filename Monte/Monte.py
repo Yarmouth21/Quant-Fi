@@ -45,7 +45,7 @@ for ele in val_sel:
     ax2.plot(ele)
 ax2.set_title("20% plus optimistes simulations")
 
-# Calcul du pourcentage de simulations positives
+# Calcul du pourcentage de simulations positive
 st = res[0,0]
 val_pos = res[:,-1]>st
 prop = np.mean(val_pos)*100
